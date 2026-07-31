@@ -64,7 +64,7 @@ git pull
 
 echo ""
 echo "Building Docker image..."
-sudo docker build -t mccapescapecord-bot .
+sudo docker build -t mccapescapecord-bot -f bot/Dockerfile ./bot
 
 echo ""
 echo "Available Docker images:"
