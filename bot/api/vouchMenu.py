@@ -1,5 +1,5 @@
 import discord
-from api.createVouchEmbed import createVouchEmbed
+from bot.api.createVouchEmbed import createVouchEmbed
 
 class VouchSelect(discord.ui.Select):
     def __init__(self, vouchData, bot):

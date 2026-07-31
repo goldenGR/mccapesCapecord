@@ -3,8 +3,8 @@ from discord.ext import commands
 from discord import app_commands
 import datetime
 
-from api.createVouchEmbed import createVouchEmbed
-from api.vouch import submitVouch
+from bot.api.createVouchEmbed import createVouchEmbed
+from bot.api.vouch import submitVouch
 
 class addVouch(commands.Cog):
     def __init__(self, bot):

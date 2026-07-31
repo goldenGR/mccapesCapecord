@@ -2,8 +2,8 @@ import discord
 from discord.ext import commands
 import time
 import re
-from api.vouchStaffButtonsView import vouchStaffButtonsView
-import api.vouch as vouch
+from bot.api.vouchStaffButtonsView import vouchStaffButtonsView
+import bot.api.vouch as vouch
 import datetime
 
 VOUCH_APPROVE_CHANNEL_ID = 1527827736859775027
@@ -15,7 +15,7 @@ async def sendDm(client, userId, msg="", embed=""):
     user = await client.fetch_user(userId)
     await user.send(msg, embed=embed)
 
-class unVouch(commands.Cog):
+class Vouch(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -29,13 +29,13 @@ class unVouch(commands.Cog):
         senderId = ctx.author.id
         args = message.split(" ")
 
-        if args[0] == "-vouch":
+        if args[0] == "+vouch":
             print(f"Vouch listener fired: {ctx.id}")
             
             if (ctx.channel.id != 1428068846086127766 and ctx.channel.id != 1458858003666309261):
                 embed = discord.Embed(
                     title="Incorect Channel",
-                    description="Please unVouch a member in <#1428068846086127766>!",
+                    description="Please Vouch a member in <#1428068846086127766>!",
                     color=0xE74C3C
                 )
                 await ctx.reply(embed=embed)
@@ -44,7 +44,7 @@ class unVouch(commands.Cog):
             if len(args) == 1:
                 embed = discord.Embed(
                     title="Missing Arguments",
-                    description="Please provide a user mention to submit an unVouch.",
+                    description="Please provide a user mention to submit a vouch.",
                     color=0xE74C3C
                 )
                 await ctx.reply(embed=embed)
@@ -57,7 +57,7 @@ class unVouch(commands.Cog):
                     await ctx.add_reaction("❌")
                     embed = discord.Embed(
                         title="Action Denied",
-                        description="You cannot submit an unVouch for yourself.",
+                        description="You cannot submit a vouch for yourself.",
                         color=0xE74C3C
                     )
                     await ctx.author.send(embed=embed)
@@ -69,7 +69,7 @@ class unVouch(commands.Cog):
                         await ctx.add_reaction("❌")
                         embed = discord.Embed(
                             title="Cooldown Active",
-                            description="You may unVouch this user again in 30 minutes.",
+                            description="You may vouch this user again in 30 minutes.",
                             color=0xF39C12
                         )
                         await ctx.author.send(embed=embed)
@@ -86,8 +86,7 @@ class unVouch(commands.Cog):
                     senderId,
                     mentionId,
                     msg,
-                    client.supabase,
-                    True
+                    client.supabase
                 )
 
                 print("After submitVouch")
@@ -100,8 +99,8 @@ class unVouch(commands.Cog):
                     created_at = datetime.datetime.fromisoformat(submitedVouch[1].data[0]['created_at'])
 
                     embed = discord.Embed(
-                        title="UnVouch Submitted Successfully",
-                        description=f"You successfully unvouched <@{mentionId}> (`{mentionId}`).",
+                        title="Vouch Submitted Successfully",
+                        description=f"You successfully vouched <@{mentionId}> (`{mentionId}`).",
                         color=0x2ECC71,
                         timestamp=created_at
                     )
@@ -112,8 +111,8 @@ class unVouch(commands.Cog):
                     
 
                     target_embed = discord.Embed(
-                        title="You Received an UnVouch",
-                        description=f"You have been unvouched by <@{senderId}> (`{senderId}`). \n Reason: {msg}",
+                        title="You Received a Vouch",
+                        description=f"You have been vouched by <@{senderId}> (`{senderId}`).",
                         color=0x3498DB,
                         timestamp=created_at
                     )
@@ -128,13 +127,13 @@ class unVouch(commands.Cog):
                     await sendDm(client, mentionId, embed=target_embed)
 
                     vouchChanellEmbed = discord.Embed(
-                        title="New UnVouch Submitted",
-                        description=f"A new unvouch has been submitted for <@{mentionId}> (`{mentionId}`).",
+                        title="New Vouch Submitted",
+                        description=f"A new vouch has been submitted for <@{mentionId}> (`{mentionId}`).",
                         color=0x2ECC71
                     )
                     vouchChanellEmbed.add_field(
-                        name="UnVouch Details",
-                        value=f"**UnVouched User:** <@{mentionId}> (`{mentionId}`)\n**UnVouched By:** <@{senderId}> (`{senderId}`)\n**Reason:** {msg}\n**Created At:** {created_at.strftime('%Y-%m-%d %H:%M:%S')}",
+                        name="Vouch Details",
+                        value=f"**Vouched User:** <@{mentionId}> (`{mentionId}`)\n**Vouched By:** <@{senderId}> (`{senderId}`)\n**Reason:** {msg}\n**Created At:** {created_at.strftime('%Y-%m-%d %H:%M:%S')}",
                         inline=False
                     )
                     vouchChanellEmbed.set_footer(text=f'Vouch ID: {submitedVouch[1].data[0]['id']}',icon_url=ctx.author.display_avatar.url)
@@ -144,8 +143,8 @@ class unVouch(commands.Cog):
                 else:
                     await ctx.add_reaction("❌")
                     embed = discord.Embed(
-                        title="UnVouch Failed",
-                        description=f"An error occurred while submitting your unVouch:\n```{submitedVouch[1]}```",
+                        title="Vouch Failed",
+                        description=f"An error occurred while submitting your vouch:\n```{submitedVouch[1]}```",
                         color=0xE74C3C
                     )
                     await ctx.author.send(embed=embed)
@@ -154,11 +153,11 @@ class unVouch(commands.Cog):
                 await ctx.add_reaction("❌")
                 embed = discord.Embed(
                     title="Invalid User",
-                    description="Please mention a valid user to submit an unVouch.",
+                    description="Please mention a valid user to submit a vouch.",
                     color=0xE74C3C
                 )
                 await ctx.author.send(embed=embed)
 
 
 async def setup(bot):
-    await bot.add_cog(unVouch(bot))
+    await bot.add_cog(Vouch(bot))

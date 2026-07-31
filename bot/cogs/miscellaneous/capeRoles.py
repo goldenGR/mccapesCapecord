@@ -72,6 +72,9 @@ class CapeRoles(commands.Cog):
 
                                 await member.add_roles(role)
 
+                        embedPerms = interaction.guild.get_role(1531493585630007336)
+                        await member.add_roles(embedPerms)
+
                         embed = discord.Embed(
                             title="Roles given succesfull",
                             description=f"Enjoy your cape roles!",

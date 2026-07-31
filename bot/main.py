@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 from cachetools import TTLCache
 from discord import app_commands
-from cogs.groups import admin_group
+from bot.cogs.groups import admin_group
 
 load_dotenv()
 

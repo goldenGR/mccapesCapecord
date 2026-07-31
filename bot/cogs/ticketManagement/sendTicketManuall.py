@@ -1,21 +1,16 @@
 import asyncio
-
-import discord
 from discord.ext import commands
-import time
-import re
-import datetime
+
+# from api.dynamic import getDynamic
 
 GUILD_ID    = 1378519415565320212
 CAT_ID      = 1452646077760143512
 CHAN_PRE    = "ticket"
 TEXT        = """
-Hello Person, please wait while we fetch the **MidleMan** team.
-
-To **help us assist you efficiently**, please **provide** the **following details** while you wait:
+Hello Person, while you wait for a Middleman to arrive, please provide the following:
 
 - The **user or party you are transacting** with
-- The **payment platform** you intend to use (e.g. PayPal <:paypal:1529204792021356655>, bank transfer :bank:, crypto wallet <:crypto:1529204748828410008>)
+- Which payment method will you use (e.g. PayPal <:paypal:1529204792021356655>, crypto wallet <:crypto:1529204748828410008>)
 - The specific **currency** or **cryptocurrency** involved (e.g. USD, BTC, ETH)
 - The **cape** or **account being traded**
 
@@ -24,7 +19,11 @@ Once support arrives, having this information already written will allow us to p
 
 class sendTicket(commands.Cog):
     def __init__(self, bot):
+        # global TEXT
         self.bot = bot
+        self.supabase = bot.supabase
+        # TEXT = getDynamic("ticketManuallText", supabase=self.supabase, key="text")
+        # print(TEXT)
 
     @commands.Cog.listener()
     async def on_guild_channel_create(self, channel):

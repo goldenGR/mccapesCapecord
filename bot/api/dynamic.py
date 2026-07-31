@@ -1,15 +1,15 @@
-def getDynamic(ID, supabase):
+def getDynamic(ID, supabase, key):
     try:
         response = (
             supabase.schema("mccapes").table("dynamic")
             .select("*")
             .eq("id", ID)
             .execute()
+            .single()
         )
 
-        print("SUCCESS:", response)
-        return (True, response)
+        keyValue = response.data["content"][key]
+        return (True, keyValue)
 
     except Exception as e:
-        # print("ERROR inserting vouch:", e)
         return (False, e)
