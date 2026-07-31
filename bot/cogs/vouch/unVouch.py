@@ -3,7 +3,7 @@ from discord.ext import commands
 import time
 import re
 from api.vouchStaffButtonsView import vouchStaffButtonsView
-import bot.api.vouch as vouch
+import api.vouch as vouch
 import datetime
 
 VOUCH_APPROVE_CHANNEL_ID = 1527827736859775027
