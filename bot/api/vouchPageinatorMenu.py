@@ -1,8 +1,8 @@
 import math
 
 import discord
-from bot.api.createVouchSelectorEmbed import createVouchSelectorEmbed
-from bot.api.vouchMenu import VouchView
+from api.createVouchSelectorEmbed import createVouchSelectorEmbed
+from api.vouchMenu import VouchView
 
 def get_vouches_page(vouches: list, page: int, per_page: int = 25):
     if page < 1:

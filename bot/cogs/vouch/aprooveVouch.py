@@ -1,9 +1,9 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from bot.api.approveVouch import approveVouchById
+from api.approveVouch import approveVouchById
 import datetime
-from bot.cogs.groups import admin_group
+from cogs.groups import admin_group
 
 class approveVouch(commands.Cog):
     def __init__(self, bot):

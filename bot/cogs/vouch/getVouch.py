@@ -1,8 +1,8 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from bot.api.createVouchEmbed import createVouchEmbed
-from bot.api.getVouch import getVoucheByID
+from api.createVouchEmbed import createVouchEmbed
+from api.getVouch import getVoucheByID
 import datetime
 
 class getVouch(commands.Cog):

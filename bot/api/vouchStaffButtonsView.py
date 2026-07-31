@@ -1,7 +1,7 @@
 import discord
 
-from bot.api.approveVouch import approveVouchById
-from bot.api.deleteVouch import deleteVouchById
+from api.approveVouch import approveVouchById
+from api.deleteVouch import deleteVouchById
 
 
 class vouchStaffButtonsView(discord.ui.View):

@@ -2,8 +2,8 @@ import discord
 from discord.ext import commands
 import re
 import datetime
-from bot.api.getVouches import getVouches
-from bot.api.vouchPageinatorMenu import VouchPageinatorView
+from api.getVouches import getVouches
+from api.vouchPageinatorMenu import VouchPageinatorView
 
 def is_user_mention(text: str):
     return re.fullmatch(r"<@!?\d+>", text) is not None

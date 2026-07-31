@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import time
 import re
-from bot.api.vouchStaffButtonsView import vouchStaffButtonsView
+from api.vouchStaffButtonsView import vouchStaffButtonsView
 import bot.api.vouch as vouch
 import datetime
 

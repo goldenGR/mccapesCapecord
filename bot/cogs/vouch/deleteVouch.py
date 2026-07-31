@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from discord import app_commands
-from bot.api.deleteVouch import deleteVouchById
+from api.deleteVouch import deleteVouchById
 import datetime
 # from cogs.groups import admin_group
 
