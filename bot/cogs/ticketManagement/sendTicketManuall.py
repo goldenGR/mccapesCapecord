@@ -7,7 +7,7 @@ GUILD_ID    = 1378519415565320212
 CAT_ID      = 1452646077760143512
 CHAN_PRE    = "ticket"
 TEXT        = """
-Hello Person, while you wait for a Middleman to arrive, please provide the following:
+Hello $u, while you wait for a Middleman to arrive, please provide the following:
 
 - The **user or party you are transacting** with
 - Which payment method will you use (e.g. PayPal <:paypal:1529204792021356655>, crypto wallet <:crypto:1529204748828410008>)
@@ -48,7 +48,7 @@ class sendTicket(commands.Cog):
 
         userMentions = message.mentions 
 
-        TEXT2 = TEXT.replace("Person", f"<@{userMentions[0].id}>")
+        TEXT2 = TEXT.replace("$u", f"<@{userMentions[0].id}>")
         await channel.send(TEXT2)
 
 

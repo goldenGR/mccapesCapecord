@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Customize ticket related messages</h2>
+
+
+<h3>MiddleMan After Creation Message</h3>
+<div id="tinymde_commandbar4" style="max-width: 50%; "></div>
+<div id="tinymde4" style="height:300px; max-width: 50%; overflow-y:scroll; border:1px solid #c0c0c0">
+<textarea id="txt3" style="height:100%">
+{{ MMACM }}
+</textarea>
+</div>
+
+<button class="btn" id="saveMMACM">Save</button>
+
+<script>
+    var tinyMDE4 = new TinyMDE.Editor({element: 'tinymde4', textarea: 'txt3'});
+    var commandBar4 = new TinyMDE.CommandBar({
+    element: 'tinymde_commandbar4', 
+    editor: tinyMDE4,
+    commands: [
+        'bold',
+        'italic',
+        'strikethrough',
+        '|',
+        'code',
+        '|',
+        'h1',
+        'h2',
+        '|',
+        'ul',
+        'ol',
+        '|',
+        'blockquote',
+        '|',
+        'undo',
+        'redo',
+        '|',
+        {
+        name: 'insertLink', 
+        action: editor => {
+            let dest = window.prompt('Link destination'); 
+            if (dest) editor.wrapSelection('[', `](<${dest}>)`);
+        }
+        },
+        {
+        name: 'userMention',
+        title: 'Mention the user the opened the ticket',
+        innerHTML: '<b>@️</b>',
+        action: editor => editor.paste("$u")
+        }
+    ]
+    });
+</script>
+
+{% endblock %}

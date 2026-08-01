@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>{{ page_title }}</title>
+
+<script src="https://unpkg.com/tiny-markdown-editor/dist/tiny-mde.min.js"></script>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="https://unpkg.com/tiny-markdown-editor/dist/tiny-mde.min.css"
+/>
+
+<style>
+
+:root{
+    --bg:#313338;
+    --sidebar:#2b2d31;
+    --header:#006d60;
+    --footer:#1e1f22;
+
+    --primary:#006d60;
+    --primary-hover:#008779;
+
+    --text:#EEEDEB;
+    --muted:#b5bac1;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Segoe UI,Arial,sans-serif;
+}
+
+body{
+    background:var(--bg);
+    color:var(--text);
+    height:100vh;
+    overflow:hidden;
+}
+
+/* ---------- HEADER ---------- */
+
+header{
+    height:60px;
+    background:var(--header);
+
+    display:flex;
+    align-items:center;
+    gap:20px;
+
+    padding:0 20px;
+
+    border-bottom:1px solid #3b3d44;
+}
+
+#toggle{
+    background:none;
+    border:none;
+    color:var(--text);
+    font-size:24px;
+    cursor:pointer;
+}
+
+header h1{
+    font-size:22px;
+    font-weight:600;
+}
+
+/* ---------- LAYOUT ---------- */
+
+.wrapper{
+    display:flex;
+    height:calc(100vh - 60px - 40px);
+}
+
+/* ---------- SIDEBAR ---------- */
+
+.sidebar{
+
+    width:230px;
+    background:var(--sidebar);
+
+    overflow:hidden;
+
+    transition:width .25s;
+}
+
+.sidebar.closed{
+    width:0px;
+}
+
+.logo{
+
+    padding:18px;
+
+    font-size:20px;
+    font-weight:bold;
+
+    white-space:nowrap;
+}
+
+.category{
+
+    margin-top:20px;
+}
+
+.category-title{
+
+    padding:0 18px 8px;
+
+    color:var(--muted);
+
+    font-size:12px;
+
+    text-transform:uppercase;
+
+    white-space:nowrap;
+}
+
+.sidebar.closed .category-title{
+    display:none;
+}
+
+.sidebar a{
+
+    display:flex;
+    align-items:center;
+
+    height:42px;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    color:var(--text);
+    background-color: var(--primary);
+
+    text-decoration:none;
+
+    padding:0 18px;
+
+    white-space:nowrap;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:6px;
+
+    
+}
+
+.sidebar a:hover{
+
+    background:var(--primary-hover);
+}
+
+.sidebar a.active{
+
+    background:var(--primary);
+}
+
+/* ---------- CONTENT ---------- */
+
+.content{
+
+    flex:1;
+
+    overflow:auto;
+
+    padding:30px;
+}
+
+/* ---------- FOOTER ---------- */
+
+footer{
+
+    height:40px;
+
+    background:var(--footer);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    color:var(--muted);
+
+    border-top:1px solid #3b3d44;
+}
+
+/* ---------- BUTTON ---------- */
+
+button,
+.btn{
+
+    background:var(--primary);
+
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+    transition:.15s;
+}
+
+button:hover,
+.btn:hover{
+
+    background:var(--primary-hover);
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <button id="toggle">☰</button>
+
+    <h1>{{ page_title }}</h1>
+
+</header>
+
+<div class="wrapper">
+
+    <nav class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <p>
+            CapeCord <br>
+            ㅤㅤDashboard
+            </p>
+        </div>
+
+        <div class="category">
+
+            <div class="category-title">
+                Vouches
+            </div>
+
+            <a href="/vouches/message">
+                Vouch Add Message
+            </a>
+
+        </div>
+
+        <div class="category">
+
+            <div class="category-title">
+                Tickets
+            </div>
+
+            <a href="dash/tickets">
+                MiddleMan Ticket Message
+            </a>
+
+        </div>
+
+    </nav>
+
+    <main class="content">
+
+        {% block content %}
+        {% endblock %}
+
+    </main>
+
+</div>
+
+<footer>
+
+    Copyright © Minecraft Capes Community
+
+</footer>
+
+<script>
+
+const sidebar = document.getElementById("sidebar");
+
+document.getElementById("toggle").addEventListener("click", () => {
+    sidebar.classList.toggle("closed");
+});
+
+</script>
+
+</body>
+</html>
