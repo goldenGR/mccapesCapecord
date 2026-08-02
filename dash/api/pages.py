@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, g
 
-from database.getDynamicById import getDynamicById
+from database.dynamicPages import  getDynamicContentById, getDynamics
 from database.user import checkSession, getUserById
 pages_bp = Blueprint("pages", __name__)
 
@@ -35,14 +35,32 @@ def dashboard():
         username=g.user["username"]
     )
 
-@pages_bp.route("/dash/tickets")
-def tickets():
+@pages_bp.route("/dash/<page>")
+def dynamic_page(page):
 
-    MMACM = getDynamicById("MMACM")[1]["content"]
-    print(MMACM)
+    dynamicPages = getDynamics()
+    if not dynamicPages[0] or dynamicPages[1] == []:
+        return f"<h1>500 Internal Server Error</h1><p>Failed to fetch dynamic pages. {dynamicPages[1]}</p> <br> <a href='/dash'>Back to Dashboard</a>", 500
+
+    dynamicPages = dynamicPages[1]
+
+    MMACM = getDynamicContentById("MMACM")[1][0]["content"]
 
     return render_template(
-        "tickets.html",
-        page_title="Tickets",
+        f"basepage.html",
+        page_title=page.capitalize(),
+        pages = dynamicPages,
         MMACM=MMACM
     )
+
+# @pages_bp.route("/dash/tickets")
+# def tickets():
+
+#     MMACM = getDynamicById("MMACM")[1]["content"]
+#     print(MMACM)
+
+#     return render_template(
+#         "tickets.html",
+#         page_title="Tickets",
+#         MMACM=MMACM
+#     )

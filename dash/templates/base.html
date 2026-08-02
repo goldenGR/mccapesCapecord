@@ -240,29 +240,23 @@ button:hover,
             </p>
         </div>
 
+        {% set categories = pages | groupby("category") %}
+
+        {% for category, items in categories %}
         <div class="category">
 
             <div class="category-title">
-                Vouches
+                {{ category|title }}
             </div>
 
-            <a href="/vouches/message">
-                Vouch Add Message
+            {% for item in items %}
+            <a href="{{ item.redirect }}">
+                {{ item.name }}
             </a>
+            {% endfor %}
 
         </div>
-
-        <div class="category">
-
-            <div class="category-title">
-                Tickets
-            </div>
-
-            <a href="dash/tickets">
-                MiddleMan Ticket Message
-            </a>
-
-        </div>
+        {% endfor %}
 
     </nav>
 
@@ -283,12 +277,17 @@ button:hover,
 
 <script>
 
+unsavedChanges = false;
+
 const sidebar = document.getElementById("sidebar");
 
 document.getElementById("toggle").addEventListener("click", () => {
     sidebar.classList.toggle("closed");
 });
 
+window.onbeforeunload = function(e) {
+    if (unsavedChanges) return 'Unsaved changes will be lost. Are you sure you want to leave?';
+};
 </script>
 
 </body>

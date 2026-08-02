@@ -53,6 +53,10 @@
         }
     ]
     });
+
+    tinyMDE4.addEventListener('change', e => { 
+        unsavedChanges = true;
+    });
 </script>
 
 {% endblock %}

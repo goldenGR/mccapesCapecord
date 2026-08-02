@@ -4,14 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>{{ page_title }}</title>
-
-<script src="https://unpkg.com/tiny-markdown-editor/dist/tiny-mde.min.js"></script>
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="https://unpkg.com/tiny-markdown-editor/dist/tiny-mde.min.css"
-/>
+<title>CapeCord Dashboard</title>
 
 <style>
 
@@ -42,7 +35,6 @@ body{
     overflow:hidden;
 }
 
-/* ---------- HEADER ---------- */
 
 header{
     height:60px;
@@ -70,14 +62,10 @@ header h1{
     font-weight:600;
 }
 
-/* ---------- LAYOUT ---------- */
-
 .wrapper{
     display:flex;
     height:calc(100vh - 60px - 40px);
 }
-
-/* ---------- SIDEBAR ---------- */
 
 .sidebar{
 
@@ -162,7 +150,6 @@ header h1{
     background:var(--primary);
 }
 
-/* ---------- CONTENT ---------- */
 
 .content{
 
@@ -173,7 +160,6 @@ header h1{
     padding:30px;
 }
 
-/* ---------- FOOTER ---------- */
 
 footer{
 
@@ -189,8 +175,6 @@ footer{
 
     border-top:1px solid #3b3d44;
 }
-
-/* ---------- BUTTON ---------- */
 
 button,
 .btn{
@@ -246,16 +230,6 @@ button:hover,
     Copyright © Minecraft Capes Community
 
 </footer>
-
-<script>
-
-const sidebar = document.getElementById("sidebar");
-
-document.getElementById("toggle").addEventListener("click", () => {
-    sidebar.classList.toggle("closed");
-});
-
-</script>
 
 </body>
 </html>
