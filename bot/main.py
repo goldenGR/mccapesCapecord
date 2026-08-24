@@ -4,8 +4,8 @@ from supabase import create_client, Client
 import discord
 from discord.ext import commands
 from cachetools import TTLCache
-from discord import app_commands
-# from cogs.groups import admin_group
+
+from api.vouchStaffButtonsView import vouchStaffButtonsView
 
 load_dotenv()
 
@@ -26,6 +26,9 @@ GUILD_ID = 1378519415565320212
 
 @client.event
 async def on_ready():
+
+    await setUpViews()
+
     # await tree.sync()
     guild = discord.Object(id=GUILD_ID)
     tree.clear_commands(guild=guild)
@@ -35,7 +38,9 @@ async def on_ready():
     await tree.sync(guild=guild)
 
     print("READY")
-    
+
+async def setUpViews():
+    client.add_view(vouchStaffButtonsView(vouchId=None, supabase=supabase))
 
 async def load_extensions():
     # ======= Vouches ========
@@ -45,7 +50,6 @@ async def load_extensions():
         # ======= Admin ========
     await client.load_extension("cogs.vouch.aprooveVouch")
     await client.load_extension("cogs.vouch.deleteVouch")
-    await client.load_extension("cogs.vouch.unVouch")
     await client.load_extension("cogs.vouch.addVouch")
 
     # ======= miscellaneous ========
@@ -63,5 +67,5 @@ async def setup_hook():
     client.supabase = supabase
     await load_extensions()
     
-
+# print(f"Token: {TOKEN}")
 client.run(TOKEN)

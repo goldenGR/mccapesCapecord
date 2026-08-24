@@ -1,10 +1,12 @@
-from flask import Blueprint, make_response, redirect, request
+from flask import Blueprint, make_response, redirect, request, session
 import requests
 
 from config import BOT_TOKEN, CLIENT_ID, CLIENT_SECRET, GUILD_ID, REDIRECT_URI
+from api.loginWithMicrosoft import MicrosoftMinecraftAuth
 from database.user import createUser, createUserSession, getUserByDiscord
 
 login_bp = Blueprint("login", __name__)
+auth = MicrosoftMinecraftAuth()
 
 @login_bp.route("/login")
 def login():
@@ -96,3 +98,22 @@ def callback():
 def storeSession():
     sessionId = request.args('sessionId')
     return(f"SessionID: {sessionId}")
+
+@login_bp.route("/loginWithMicrosoft")
+def loginWithMicrosoft():
+    login = auth.get_login_url()
+    session["oauth_state"] = login["state"]
+    return f"<h1>Microsoft Login</h1><p><a href='{login['url']}'>Login with Microsoft</a></p>"
+
+@login_bp.route("/goldenCallBack")
+def golden_callback():
+    code = request.args.get("code")
+    state = request.args.get("state")
+
+    if state != session.get("oauth_state"):
+        return "Invalid state parameter", 400
+
+    result = auth.finish_login(code)
+    return "<h1>Login Successful</h1><p>Access Token: {}</p><p>Refresh Token: {}</p>".format(
+        result["minecraft_access_token"], result.get("refresh_token", "No refresh token")
+    )

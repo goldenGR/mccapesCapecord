@@ -1,3 +1,4 @@
+import asyncio
 import discord
 
 from api.approveVouch import approveVouchById
@@ -6,51 +7,54 @@ from api.deleteVouch import deleteVouchById
 
 class vouchStaffButtonsView(discord.ui.View):
     def __init__(self, vouchId, supabase):
-        super().__init__(timeout=300)
+        super().__init__(timeout=None)
         self.vouchId = vouchId
         self.supabase = supabase
 
     @discord.ui.button(
         label="Approve Vouch",
         style=discord.ButtonStyle.blurple,
-        emoji="✅"
+        emoji="✅",
+        custom_id="vouch_approve"
     )
     async def approveVouch(
         self,
         interaction: discord.Interaction,
         button: discord.ui.Button
     ):
-        
-        approveVouchById(self.vouchId, self.supabase)
+        # Acknowledge immediately, well within the 3s window
+        await interaction.response.defer()
+
+        # Run the blocking Supabase call off the event loop
+        await asyncio.to_thread(approveVouchById, self.vouchId, self.supabase)
 
         button.disabled = True
-
-        await interaction.response.edit_message(view=self)
+        await interaction.edit_original_response(view=self)
 
         await interaction.followup.send(
-        "Voucher has been approved. Gn pookie admin <3",
-        ephemeral=True
-    )
-
+            "Voucher has been approved. Gn pookie admin <3",
+            ephemeral=True
+        )
 
     @discord.ui.button(
         label="Delete Vouch",
         style=discord.ButtonStyle.gray,
-        emoji="❌"
+        emoji="❌",
+        custom_id="vouch_delete"
     )
     async def deleteVouch(
         self,
         interaction: discord.Interaction,
         button: discord.ui.Button
     ):
-        
-        deleteVouchById(self.vouchId, self.supabase)
+        await interaction.response.defer()
+
+        await asyncio.to_thread(deleteVouchById, self.vouchId, self.supabase)
 
         button.disabled = True
-        await interaction.response.edit_message(view=self)
+        await interaction.edit_original_response(view=self)
 
         await interaction.followup.send(
-            "Voucher has been deleted. Good job admin >.<",
+            "Vouch has been deleted. Good job admin >.<",
             ephemeral=True
         )
-        
