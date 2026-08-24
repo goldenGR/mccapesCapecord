@@ -4,7 +4,7 @@ import time
 from api.vouchStaffButtonsView import vouchStaffButtonsView
 import api.vouch as vouch
 import datetime
-from api.mitelanius import is_user_mention, sendDm
+from api.mitelanius import is_user_id, is_user_mention, sendDm
 
 # VOUCH_APPROVE_CHANNEL_ID = 1527827736859775027
 VOUCH_APPROVE_CHANNEL_ID = 1458858003666309261
@@ -53,7 +53,8 @@ class Vouch(commands.Cog):
 
             return
         
-        elif not is_user_mention(args[1]):
+        if not is_user_mention(args[1]) and not is_user_id(args[1]):
+            
             await ctx.add_reaction("❌")
             embed = discord.Embed(
                 title="Invalid User",
@@ -63,8 +64,10 @@ class Vouch(commands.Cog):
             await ctx.author.send(embed=embed)
 
             return
-        
-        mentionId = int(args[1].replace("<","").replace("@","").replace("!","").replace(">",""))
+        if is_user_mention(args[1]):
+            mentionId = int(args[1].replace("<","").replace("@","").replace("!","").replace(">",""))
+        else: 
+            mentionId = int(args[1])
 
         if mentionId == senderId:
             await ctx.add_reaction("❌")

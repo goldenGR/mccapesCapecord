@@ -17,6 +17,8 @@ def submitVouch(voucher, vouchee, message, supabase, is_unvouch=False, verified=
         print("SUCCESS:", response)
 
         whoVouchedWhoWhen[(voucher, vouchee)] = time.time()
+        print("hey?")
+        print(whoVouchedWhoWhen)
         return (True, response)
 
     except Exception as e:

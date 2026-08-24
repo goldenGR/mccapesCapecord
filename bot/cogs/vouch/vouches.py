@@ -4,6 +4,7 @@ import re
 import datetime
 from api.getVouches import getVouches
 from api.vouchPageinatorMenu import VouchPageinatorView
+from api.mitelanius import is_user_id
 
 def is_user_mention(text: str):
     return re.fullmatch(r"<@!?\d+>", text) is not None
@@ -113,8 +114,11 @@ class Vouches(commands.Cog):
 
                 return
 
-            elif is_user_mention(args[1]):
-                mentionId = int(args[1].replace("<","").replace("@","").replace("!","").replace(">",""))
+            elif is_user_mention(args[1]) or is_user_id(args[1]):
+                if is_user_mention(args[1]):
+                    mentionId = int(args[1].replace("<","").replace("@","").replace("!","").replace(">",""))
+                else: 
+                    mentionId = int(args[1])
                 vouches = getVouches(mentionId, client.supabase)[1].data
                 targetUser = await client.fetch_user(mentionId)
                 if vouches == []:

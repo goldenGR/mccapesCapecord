@@ -51,6 +51,7 @@ async def load_extensions():
     await client.load_extension("cogs.vouch.aprooveVouch")
     await client.load_extension("cogs.vouch.deleteVouch")
     await client.load_extension("cogs.vouch.addVouch")
+    await client.load_extension("cogs.vouch.removeVouchCooldown")
 
     # ======= miscellaneous ========
     await client.load_extension("cogs.miscellaneous.checkCode")

@@ -6,7 +6,9 @@ from discord import app_commands
 import requests
 import datetime
 
+GUILD_ID = 1378519415565320212
 LOGINGCHANNEL = 1528767064356032533
+OGUSERS_LIST = "https://raw.githubusercontent.com/goldenGR/og-names/refs/heads/master/src/ogs.txt"
 
 capesRoles = {
     "2011":             1391249239664758836,
@@ -24,6 +26,35 @@ capesRoles = {
     "mojangold":        1425854345655746691,
     "mojira":           1425855021253132410
 }
+
+# def load_names():
+#     try:
+#         with open("names.txt", "r", encoding="utf-8") as f:
+#             return set(f.read().splitlines())
+#     except FileNotFoundError:
+#         resp = requests.get(OGUSERS_LIST)
+#         resp.raise_for_status()
+
+#         try:
+#             raw_names = resp.json()
+#         except requests.exceptions.JSONDecodeError:
+#             raise RuntimeError(
+#                 f"OGUSERS_LIST did not return JSON. Status: {resp.status_code}, "
+#                 f"body starts with: {resp.text[:200]!r}"
+#             )
+
+#         # normalize to str regardless of what came back
+#         names = [
+#             n.decode("utf-8") if isinstance(n, bytes) else str(n)
+#             for n in raw_names
+#         ]
+
+#         with open("names.txt", "w", encoding="utf-8") as f:
+#             f.write("\n".join(names))
+
+#         return set(names)
+
+# names = load_names()
 
 headers = {
     "User-Agent": (
@@ -47,7 +78,7 @@ class CapeRoles(commands.Cog):
         await interaction.response.defer(ephemeral=True)
         try:
 
-            linkedResponse = requests.get(f"https://api.vlonk102.co.uk/linked?username={java_username}", headers=headers)
+            linkedResponse = requests.get(f"https://api.vlonk102.co.uk/linked?username={java_username}&guild_id={GUILD_ID}", headers=headers)
             linkedResponse = linkedResponse.json()["linked"]
 
             if linkedResponse == None:
@@ -99,14 +130,23 @@ class CapeRoles(commands.Cog):
                 if cape in capesRoles:
                     role = interaction.guild.get_role(capesRoles[cape])
                     roles.append(role)
-                    
+
+            if len(java_username) <= 3:
+                roles.append(interaction.guild.get_role(1534423078208143461))
+
+            # if java_username in names:
+            #     roles.append(interaction.guild.get_role(1414468442349637703))
+
             roles = [r for r in roles if r is not None]
             await member.add_roles(*roles)
 
+            rolesString = ""
+            for role in roles:
+                rolesString=f"{rolesString} <@&{role.id}>"
 
             embed = discord.Embed(
-                title="Roles given succesfull",
-                description=f"Enjoy your cape roles!",
+                title="Roles given succesful",
+                description=f"Enjoy your cape roles! \n\n **Roles Given:** {rolesString}",
                 color=0x2ECC71,
                 timestamp=datetime.datetime.now()
             )
