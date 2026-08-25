@@ -6,8 +6,8 @@ import api.vouch as vouch
 import datetime
 from api.mitelanius import is_user_id, is_user_mention, sendDm
 
-# VOUCH_APPROVE_CHANNEL_ID = 1527827736859775027
-VOUCH_APPROVE_CHANNEL_ID = 1458858003666309261
+VOUCH_APPROVE_CHANNEL_ID = 1527827736859775027
+#VOUCH_APPROVE_CHANNEL_ID = 1458858003666309261
 
 class Vouch(commands.Cog):
     def __init__(self, bot):
