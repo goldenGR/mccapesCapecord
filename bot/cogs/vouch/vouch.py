@@ -6,8 +6,8 @@ import api.vouch as vouch
 import datetime
 from api.mitelanius import is_user_id, is_user_mention, sendDm
 
-VOUCH_APPROVE_CHANNEL_ID = 1527827736859775027
-#VOUCH_APPROVE_CHANNEL_ID = 1458858003666309261
+#VOUCH_APPROVE_CHANNEL_ID = 1527827736859775027
+VOUCH_APPROVE_CHANNEL_ID = 1458858003666309261
 
 class Vouch(commands.Cog):
     def __init__(self, bot):
@@ -157,7 +157,7 @@ class Vouch(commands.Cog):
         )
         vouchChanellEmbed.set_footer(text=f'Vouch ID: {submitedVouch[1].data[0]['id']}',icon_url=ctx.author.display_avatar.url)
 
-        await client.get_channel(VOUCH_APPROVE_CHANNEL_ID).send(embed=vouchChanellEmbed, view=vouchStaffButtonsView(submitedVouch[1].data[0]['id'], client.supabase))
+        await client.get_channel(VOUCH_APPROVE_CHANNEL_ID).send(embed=vouchChanellEmbed, view=vouchStaffButtonsView(vouch_id=submitedVouch[1].data[0]['id'], supabase=client.supabase))
 
 async def setup(bot):
     await bot.add_cog(Vouch(bot))

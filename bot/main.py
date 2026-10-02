@@ -5,7 +5,7 @@ import discord
 from discord.ext import commands
 from cachetools import TTLCache
 
-from api.vouchStaffButtonsView import vouchStaffButtonsView
+from api.vouchStaffButtonsView import ApproveVouchButton, DeleteVouchButton, vouchStaffButtonsView
 
 load_dotenv()
 
@@ -40,7 +40,8 @@ async def on_ready():
     print("READY")
 
 async def setUpViews():
-    client.add_view(vouchStaffButtonsView(vouchId=None, supabase=supabase))
+    client.supabase = supabase  # from_custom_id reads interaction.client.supabase
+    client.add_dynamic_items(ApproveVouchButton, DeleteVouchButton)
 
 async def load_extensions():
     # ======= Vouches ========
