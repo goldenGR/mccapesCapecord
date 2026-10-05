@@ -56,7 +56,7 @@ async def load_extensions():
 
     # ======= miscellaneous ========
     await client.load_extension("cogs.miscellaneous.checkCode")
-    await client.load_extension("cogs.miscellaneous.capeRoles")
+    # await client.load_extension("cogs.miscellaneous.capeRoles")
 
     # ======= ticketManagement ========
     await client.load_extension("cogs.ticketManagement.sendTicketManuall")
